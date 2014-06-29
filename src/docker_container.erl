@@ -38,7 +38,7 @@ container(CID) ->
 % http://docs.docker.io/en/latest/api/docker_remote_api_v1.4/#create-a-container
 create(ConfigBin) ->
     Body = jsx:encode(ConfigBin),
-    erldocker_api:post([containers, create], <<>>, Body).
+    erldocker_api:post([containers, create], [], Body).
 
 % @doc List processes running inside the container id.
 top(CID) ->
