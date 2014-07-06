@@ -69,8 +69,21 @@ read_body(Receiver, Client) ->
             E
     end.
 
+-spec binary_join([binary()], binary()) -> binary().
+binary_join([], _Sep) ->
+  <<>>;
+binary_join([Part], _Sep) ->
+  Part;
+binary_join(List, Sep) ->
+  lists:foldr(fun (A, B) ->
+    if
+      bit_size(B) > 0 -> <<A/binary, Sep/binary, B/binary>>;
+      true -> A
+    end
+  end, <<>>, List).
+
 argsencode([], Acc) ->
-    hackney_util:join(lists:reverse(Acc), <<"&">>);
+    binary_join(lists:reverse(Acc), <<"&">>);
 argsencode ([{_K,undefined}|R], Acc) ->
     argsencode(R, Acc);
 argsencode ([{K,V}|R], Acc) ->
