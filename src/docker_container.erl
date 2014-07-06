@@ -39,7 +39,7 @@ container(CID) ->
 create(ConfigBin) ->
     Body = jsx:encode(ConfigBin),
     {ok, Response} = erldocker_api:post([containers, create], [], Body),
-    {ok, jsx:decode(Response)}.
+    {ok, Response}.
 
 % @doc List processes running inside the container id.
 top(CID) ->
